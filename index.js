@@ -30,6 +30,7 @@ const connectDB = async () => {
 connectDB();
 
 app.use(morgan('dev'));
+app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
 app.use(cookierParser());
 app.use(expressValidator());
@@ -43,6 +44,11 @@ app.use('/api', adRouter);
 
 const PORT = process.env.PORT || 8000;
 console.log(PORT)
+// app.post('/api', (req, res) => {
+//     console.log(req.body);
+//     res.send('Hello World');
+// });
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+    
 });

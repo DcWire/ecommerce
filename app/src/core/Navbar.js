@@ -17,19 +17,19 @@ function Navbar() {
                     </li>
 
                     <li className="nav-item active">
-                        <Link className="nav-link" to="/">Sign In</Link>
+                        <Link className="nav-link" to="/signin">Sign In</Link>
                     </li>
 
                     <li className="nav-item active">
-                        <Link className="nav-link" to="/">Sign Up</Link>
+                        <Link className="nav-link" to="/signup">Sign Up</Link>
                     </li>
 
                     <li className="nav-item active">
-                        <Link className="nav-link" to="/">Sign Out</Link>
+                        <Link className="nav-link" to="/signout">Sign Out</Link>
                     </li>
 
                     <li className="nav-item active">
-                        <Link className="nav-link" to="/">Profile</Link>
+                        <Link className="nav-link" to="/profile">Profile</Link>
                     </li>
                 
 
