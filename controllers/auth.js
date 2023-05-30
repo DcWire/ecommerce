@@ -26,6 +26,7 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
   // find the user based on email
+  console.log(req.body);
   const { email, password } = req.body;
   User.findOne({email})
   .then((user) => {
