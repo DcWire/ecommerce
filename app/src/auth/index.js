@@ -15,7 +15,6 @@ export const signin = (user) => {
         return response.json();
     })
     .catch(err => {
-        console.log("whats the error");
         console.log(err);
     });
 }
@@ -37,8 +36,24 @@ export const signup = (user) => {
         console.log(err);
     });
 }
+
+export const signout = (next) => {
+    if(typeof window !== 'undefined') {
+        localStorage.removeItem('jwt');
+        next();
+        fetch(`${API}/signout`, {
+            method: 'GET' 
+        })
+        .then(response => {
+            console.log('signout', response);
+        })
+        .catch(err => console.log(err));
+    }
+}
+
 export const authenticate = (data, next) => {
     if (typeof window !== 'undefined') {
+        console.log(data);
       localStorage.setItem('jwt', JSON.stringify(data));
       next();
     }

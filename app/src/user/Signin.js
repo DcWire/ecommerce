@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {redirect, Link} from 'react-router-dom'
+import {redirect, Link, Navigate} from 'react-router-dom'
 import Navbar from '../core/Navbar'
 import {API} from '../config'
 import {isAuthenticated, signin, authenticate} from '../auth/index'
@@ -10,12 +10,22 @@ function Signin() {
         error: "",
     });
 
+    const [isItAuthenticated, setIsItAuthenticated] = useState(
+        JSON.parse(localStorage.getItem("jwt")) || false
+    );
+    
+
+
     const {email, password, error} = values;
     const {user} = isAuthenticated();
+
+    
 
     const handleChange = (name) => (event) => {
         setValues({...values, error: false, [name]: event.target.value});
     }
+
+   
 
     const clickSubmit = (event) => {
         event.preventDefault();
@@ -37,38 +47,40 @@ function Signin() {
         })
     }
 
-    const redirectUser = () => {
-        // if (redirectToReferrer) {
-        //   if (user && user.role === 1) {
-        //     return <Redirect to='/admin/dashboard' />;
-        //   } else {
-        //     return <Redirect to='/user/dashboard' />;
-        //   }
-        // }
-        if (isAuthenticated()) {
-          return redirect('/');
-        }
-      };
-    return (
-        <div>
-            <Navbar />
-            {redirectUser()}
-            <div className="container mt-5" style={{paddingRight: "200px", paddingLeft: "200px"}}>
-                <form>
-                <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Email address</label>
-                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" value={email} onChange={handleChange('email')}></input>
-                    <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+    useEffect(() => {
+        const check = isAuthenticated() ? true : false;
+        setIsItAuthenticated(check);
+        
+    }, []);
+
+    
+    if(isItAuthenticated) {
+        return <Navigate replace to="/" />;
+    }
+    else {
+        return (
+            <div>
+                <Navbar />
+                <div className="container mt-5" style={{paddingRight: "200px", paddingLeft: "200px"}}>
+                    <form>
+                    <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">Email address</label>
+                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" name="email" value={email} onChange={handleChange('email')}></input>
+                        <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="exampleInputPassword1">Password</label>
+                        <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" name="password" value={password} onChange={handleChange('password')}></input>
+                    </div>
+                    <button type="submit" className="btn btn-primary" onClick={clickSubmit}>Submit</button>
+                    </form>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="exampleInputPassword1">Password</label>
-                    <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" name="password" value={password} onChange={handleChange('password')}></input>
-                </div>
-                <button type="submit" className="btn btn-primary" onClick={clickSubmit}>Submit</button>
-                </form>
             </div>
-        </div>
-    )
+        )
+    }
+
+      
+    
 }
 
 

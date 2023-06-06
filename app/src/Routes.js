@@ -6,7 +6,6 @@ import Signup from './user/Signup'
 // import AdCreate from './Ad/CreateAd'
 
 // import User from './core/User'
-console.log(Home);
 
 const Routes = () => {
     return (
