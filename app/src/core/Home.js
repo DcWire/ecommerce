@@ -56,10 +56,10 @@ function Home() {
                 {
 
                     <div className="container">
-                    <div class="row">
+                    <div className="row">
                     {ads.map((ad) => (
                         <div key={ad._id} className="col-md-3" style={styles}>
-                        <div clasName="container" >
+                        <div className="container" >
                             <Link to={`/ad/${ad._id}`} style={{textDecoration: 'none'}}>
                                 <img className="card-img-top" src="https://picsum.photos/200" />
                                 <div className="container" style={{border:"1px solid black", borderBottomRightRadius:"5%", borderBottomLeftRadius:"5%"}}>

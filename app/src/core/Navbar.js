@@ -1,7 +1,18 @@
 import React, {useState, useEffect} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
+import {isAuthenticated, signout} from '../auth/index'
 
 function Navbar() {
+    const navigate = useNavigate();
+
+    const clickSignOut = (event) => {
+        event.preventDefault();
+        signout(() => {
+            console.log("Signout successful");
+        });
+        navigate("/");
+    }
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark navbar-fixed-top">
             <a className="navbar-brand" href="#">Navbar</a>
@@ -15,23 +26,33 @@ function Navbar() {
                     <li className="nav-item active">
                         <Link className="nav-link" to="/">Home</Link>
                     </li>
+                    {   
+                        !isAuthenticated() &&
+                         <li className="nav-item active">
+                            <Link className="nav-link" to="/signin">Sign In</Link>
+                        </li>
+                    }
+                   
+                    {
+                        !isAuthenticated() &&
+                        <li className="nav-item active">
+                            <Link className="nav-link" to="/signup">Sign Up</Link>
+                        </li>
+                    }
 
-                    <li className="nav-item active">
-                        <Link className="nav-link" to="/signin">Sign In</Link>
-                    </li>
+                    {
+                        isAuthenticated() &&
+                        <li className="nav-item active">
+                            <Link className="nav-link" to="/signout" onClick={clickSignOut}>Sign Out</Link>
+                        </li>
+                    }
 
-                    <li className="nav-item active">
-                        <Link className="nav-link" to="/signup">Sign Up</Link>
-                    </li>
-
-                    <li className="nav-item active">
-                        <Link className="nav-link" to="/signout">Sign Out</Link>
-                    </li>
-
-                    <li className="nav-item active">
-                        <Link className="nav-link" to="/profile">Profile</Link>
-                    </li>
-                
+                    {   
+                        isAuthenticated() &&
+                        <li className="nav-item active">
+                            <Link className="nav-link" to="/profile">Profile</Link>
+                        </li>
+                    }
 
                 </ul>
             </div>

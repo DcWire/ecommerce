@@ -1,8 +1,7 @@
 const User = require('../models/user');
 
 exports.userById = (req, res, next) => {
-    
-    let id = req.params.id;
+    let id = req.params.userid;
     if(!id) {
         id = req.query.id;
     }

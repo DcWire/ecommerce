@@ -7,3 +7,15 @@ export const getAds = () => {
         })
         .catch(err => console.log(err));
 }
+
+export const getOneAd = (adId) => {
+    return fetch(`${API}/ad/read/${adId}`, {
+        method: 'GET'
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
