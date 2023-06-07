@@ -26,7 +26,8 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
   // find the user based on email
-  console.log(req.body);
+  // console.log(req.body);
+
   const { email, password } = req.body;
   User.findOne({email})
   .then((user) => {
@@ -53,7 +54,7 @@ exports.signin = (req, res) => {
     res.cookie('t', token, { expire: new Date() + 9999 });
     // return response with user and token to frontend client
     const { _id, name, email, role } = user;
-    res.json({ token, user: { _id, email, name, role } });
+    return res.json({ token, user: { _id, email, name, role } });
 
 
   })
@@ -86,6 +87,12 @@ exports.signout = (req, res) => {
 
 exports.requireSignin = (req, res, next) => {
   token = req.cookies.t;
+  if(!token) {
+    token = req.headers['authorization'];
+    if(token) {
+      token = token.split(' ')[1];
+    }
+  }
   
   if (!token) {
     throw new Error('Not authorised');
@@ -95,6 +102,7 @@ exports.requireSignin = (req, res, next) => {
     // console.log(decoded);
     req.auth = decoded;
   } catch(err) {
+    console.log("here");
     return res.status(400).json({
       error: 'Invalid token',
     });

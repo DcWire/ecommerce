@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {redirect, Link, Navigate} from 'react-router-dom'
+import {redirect, Link, Navigate, useNavigate} from 'react-router-dom'
 import Navbar from '../core/Navbar'
 import {API} from '../config'
 import {isAuthenticated, signin, authenticate} from '../auth/index'
@@ -18,6 +18,8 @@ function Signin() {
 
     const {email, password, error} = values;
     const {user} = isAuthenticated();
+
+    const navigate = useNavigate();
 
     
 
@@ -43,6 +45,7 @@ function Signin() {
                         password: "",
                     });
                 })
+                navigate('/');
             }
         })
     }

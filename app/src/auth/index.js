@@ -11,7 +11,7 @@ export const signin = (user) => {
         body: JSON.stringify(user)
     })
     .then(response => {
-        // console.log(response.json());
+        // console.log(response);
         return response.json();
     })
     .catch(err => {
@@ -45,7 +45,7 @@ export const signout = (next) => {
             method: 'GET' 
         })
         .then(response => {
-            console.log('signout', response);
+            console.log('signout');
         })
         .catch(err => console.log(err));
     }
@@ -53,7 +53,7 @@ export const signout = (next) => {
 
 export const authenticate = (data, next) => {
     if (typeof window !== 'undefined') {
-        console.log(data);
+
       localStorage.setItem('jwt', JSON.stringify(data));
       next();
     }
