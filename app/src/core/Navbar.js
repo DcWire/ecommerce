@@ -54,6 +54,20 @@ function Navbar() {
                         </li>
                     }
 
+                    {   
+                        isAuthenticated() &&
+                        <li className="nav-item active">
+                            <Link className="nav-link" to="/myad">My Ads</Link>
+                        </li>
+                    }
+
+                    {   
+                        isAuthenticated() &&
+                        <li className="nav-item active">
+                            <Link className="nav-link" to="/createad">Create Ad</Link>
+                        </li>
+                    }
+
                 </ul>
             </div>
         </nav>

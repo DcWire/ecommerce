@@ -1,8 +1,9 @@
 const Ad = require('../models/ad');
-
+const User = require('../models/user');
 
 exports.create = (req, res) => {
     const ad = new Ad(req.body);
+
     ad.save()
     .then((ad) => {
         res.json({
@@ -13,11 +14,27 @@ exports.create = (req, res) => {
         return res.status(400).json({
             err: errorHandler(err),
         });
+    });
+
+    const id = req.profile._id;
+    User.findByIdAndUpdate(
+        { _id: id },
+        { $push: { ads: ad._id}}
+    )
+    .then((user) => {
+        res.json({
+            user
+        });
+    })
+    .catch((err) => {
+        return res.status(400).json({
+            err: errorHandler(err),
+        });
     })
 };
 
 exports.read = (req, res) => {
-    Ad.findById(req.params.id)
+    Ad.findById(req.params.userid)
     .then((ad) => {
         if (!ad) {
             return res.status(400).json({
@@ -69,3 +86,40 @@ exports.update = (req, res) => {
         });
     })
 };
+
+exports.remove = (req, res) => {
+    const id = req.query.id;
+    const adid = req.query.adid; 
+
+    User.findById(id)
+    .then((user) => {
+        user.ads.pull(adid);
+        user.save()
+        .then((user) => {
+            return res.json(user);
+        })
+        .catch((err) => {
+            return res.status(401).json({
+                error: 'Unable to delete ad',
+            });
+        })
+    })
+    .catch((err) => {
+        return res.status(401).json({
+            error: 'Unable to delete ad',
+        });
+    })
+}
+
+exports.myAd = (req, res) => {
+    const id = req.params.userid;
+    User.findById(id)
+    .then((user) => {
+        return res.json(user.ads);
+    })
+    .catch((err) => {
+        return res.status(401).json({
+            error: 'Unable to retreive ads',
+        });
+    })
+}

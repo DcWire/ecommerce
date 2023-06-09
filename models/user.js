@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema(
             type: Number, 
             default: 0 // 0 = user, 1 = admin
         },
+        ads: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Ad'
+        }]
     }, 
     { 
     timestamps: true 
