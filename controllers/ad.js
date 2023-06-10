@@ -1,14 +1,27 @@
 const Ad = require('../models/ad');
 const User = require('../models/user');
+const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.create = (req, res) => {
     const ad = new Ad(req.body);
-
     ad.save()
     .then((ad) => {
-        res.json({
-            ad
-        });
+        const id = req.profile._id;
+        User.findByIdAndUpdate(
+            { _id: id },
+            { $push: { ads: ad._id}}
+        )
+        .then((user) => {
+            return res.json({
+                ad,
+                user
+            });
+        })
+        .catch((err) => {
+            return res.status(401).json({
+                err: errorHandler(err),
+            });
+        })
     })
     .catch((err) => {
         return res.status(400).json({
@@ -16,21 +29,9 @@ exports.create = (req, res) => {
         });
     });
 
-    const id = req.profile._id;
-    User.findByIdAndUpdate(
-        { _id: id },
-        { $push: { ads: ad._id}}
-    )
-    .then((user) => {
-        res.json({
-            user
-        });
-    })
-    .catch((err) => {
-        return res.status(400).json({
-            err: errorHandler(err),
-        });
-    })
+    
+
+    
 };
 
 exports.read = (req, res) => {

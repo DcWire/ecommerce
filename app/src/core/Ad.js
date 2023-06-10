@@ -38,3 +38,33 @@ export const getMyAd = (userId, token) => {
         console.log(err);
     })
 }
+
+export const createAd = (userId, token, ad) => {
+    return fetch(`${API}/ad/create/${userId}`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`        
+        },
+        body: JSON.stringify(ad)
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
+
+export const getCategories = () => {
+    return fetch(`${API}/category/all`, {
+        method: 'GET'
+        })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+}
