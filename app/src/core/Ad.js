@@ -9,6 +9,7 @@ export const getAds = () => {
 }
 
 export const getOneAd = (adId) => {
+    
     return fetch(`${API}/ad/read/${adId}`, {
         method: 'GET',
        
