@@ -37,7 +37,7 @@ function Home() {
             <Navbar />
             <div className="jumbotron">
                 <h1 className="display-4">
-                    Arsheyan Saala
+                    ECOM
                 </h1>
 
                 <hr className="my-4" />

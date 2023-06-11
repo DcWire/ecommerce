@@ -93,6 +93,7 @@ exports.requireSignin = (req, res, next) => {
       token = token.split(' ')[1];
     }
   }
+
   
   if (!token) {
     throw new Error('Not authorised');

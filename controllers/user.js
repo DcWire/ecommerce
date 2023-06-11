@@ -10,14 +10,14 @@ exports.userById = (req, res, next) => {
         // console.log(user);
         if(!user) {
             return res.status(400).json({
-                error: 'User not found',
+                error: 'User not found by that id',
             });
         }
         req.profile = user;
         next();
     })
     .catch((err) => {
-        return res.status(400).json({
+        return res.status(401).json({
             error: 'User not found',
         });
     })
