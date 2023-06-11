@@ -95,7 +95,7 @@ const MyAd = () => {
         <div>
             {/* {console.log(ads.length)} */}
             <Navbar />
-            <div>loading</div>
+            <div>Loading...</div>
         </div>
         
     )

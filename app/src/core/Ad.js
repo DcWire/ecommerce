@@ -9,7 +9,7 @@ export const getAds = () => {
 }
 
 export const getOneAd = (adId) => {
-    
+
     return fetch(`${API}/ad/read/${adId}`, {
         method: 'GET',
        
@@ -68,4 +68,22 @@ export const getCategories = () => {
     .catch(err => {
         console.log(err);
     })
+}
+
+export const deleteOneAd = (adId, userId, token) => {
+    return fetch(`${API}/ad/delete?adid=${adId}&id=${userId}`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+        },
+    })
+    .then(response => {
+        return response.json();
+    })
+    .catch(err => {
+        console.log(err);
+    })
+
 }

@@ -105,8 +105,16 @@ exports.remove = (req, res) => {
             });
         })
     })
+    .then((user) => {
+        Ad.deleteOne({ _id: adid })
+        .catch(err => {
+            return res.status(402).json({
+                error: 'Error deleting ad from database',
+            });
+        })
+    })
     .catch((err) => {
-        return res.status(401).json({
+        return res.status(403).json({
             error: 'Unable to delete ad',
         });
     })

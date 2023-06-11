@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import {useParams} from 'react-router-dom'
-import {getOneAd} from '../core/Ad'
+import {useParams, useNavigate} from 'react-router-dom'
+import {getOneAd, deleteOneAd} from '../core/Ad'
 import Navbar from '../core/Navbar'
 
 const ShowAd = () => {
@@ -12,7 +12,9 @@ const ShowAd = () => {
         category: '',
         postedBy: '',
     });
+    const data = JSON.parse(localStorage.getItem('jwt'));
 
+    const navigate = useNavigate();
     const {title, description, price, category, postedBy} = ad;
     const findAd = () => {
         
@@ -30,7 +32,23 @@ const ShowAd = () => {
             console.log(err);
         })
     }
+    const deleteAd = (event) => {
 
+        event.preventDefault();
+        deleteOneAd(adId, data.user._id, data.token)
+        .then((data) => {
+            if(data.error) {
+                console.log(data.error);
+            }
+        })
+        .then(() => {
+            navigate('/');
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+        
+    }
     useEffect(() => {
         findAd();
     }, []);
@@ -46,6 +64,7 @@ const ShowAd = () => {
                 <h2>{price}</h2>
                 <h2>{postedBy}</h2>
             </div>
+            <button type="button" className="btn btn-danger" onClick={deleteAd}>Delete Ad</button>
         </div>
     )
 }
